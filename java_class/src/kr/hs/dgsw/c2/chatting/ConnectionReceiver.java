@@ -8,12 +8,10 @@ import java.net.Socket;
  */
 public interface ConnectionReceiver
 {
-
-	/**
-	 * 클라이언트가 접속되면 호출된다.
-	 * 
-	 * @param socket
-	 */
-	public void onClientConnected(Socket socket);
-	
+    /**
+     * 클라이언트가 접속되면 호출된다.
+     *
+     * @param socket
+     */
+    public void onClientConnected(Socket socket);
 }
