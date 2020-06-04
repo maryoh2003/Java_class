@@ -6,8 +6,7 @@ public class Executor {
 
 	public static void main(String[] args) {
 		
-		//Bulletin bulletin = new SimplestBulletin();
-		Bulletin bulletin = new SimpleFileBulletin();
+		Bulletin bulletin = new SimpleDbBulletin();
 		
 		Writing writing = null;
 		
@@ -15,14 +14,16 @@ public class Executor {
 		writing.setTitle("개학은 언제죠?");
 		writing.setContent("5월 27일이에요.");
 		writing.setWriter("이찬민");
+		writing.setIndex(1);
 		
 		bulletin.write(writing);
-		
-		
+		bulletin.list();
+	
 		writing = new Writing();
 		writing.setTitle("대소고 만세");
 		writing.setContent("빨리 학교 가고 싶어");
 		writing.setWriter("이영은");
+		writing.setIndex(2);
 		
 		bulletin.write(writing);
 		
@@ -31,10 +32,10 @@ public class Executor {
 		writing.setTitle("코로나 싫어");
 		writing.setContent("백신이 필요해");
 		writing.setWriter("여동민");
+		writing.setIndex(3);
 		
 		bulletin.write(writing);
 
-		
 		Writing second = bulletin.read(2);
 		System.out.println(second.getTitle() + "  " + second.getContent());
 		
