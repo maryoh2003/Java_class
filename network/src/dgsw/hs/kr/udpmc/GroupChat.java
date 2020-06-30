@@ -12,6 +12,7 @@ public class GroupChat {
 	private static final String TERMINATE = "Exit";
 	static String name;
 	static volatile boolean finished = false;
+	public static int port = 1234;
 
 	public static void main(String[] args) {
 		if (false)

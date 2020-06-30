@@ -11,35 +11,35 @@ import java.net.Socket;
 public class ChatHandler extends Thread {
 	Socket socket;
 	String name;
-	public DataOutputStream out;  //¿ÜºÎ Å¬·¡½º¿¡¼­ Á¢±ÙÇÏ¿© Ãâ·Â
-	//»ı¼ºÀÚ¸¦ ÅëÇØ ¼ÒÄ¹ °´Ã¼ Àü´Ş ¹ŞÀ½¤¤
-	public ChatHandler(Socket socket) {
+	public final DataOutputStream out;  //ì™¸ë¶€ í´ë˜ìŠ¤ì—ì„œ ì ‘ê·¼í•˜ì—¬ ì¶œë ¥
+	public final DataInputStream in;
+	//ìƒì„±ìë¥¼ í†µí•´ ì†Œìº£ ê°ì²´ ì „ë‹¬ ë°›ìŒ
+	public ChatHandler(Socket socket,DataOutputStream out,DataInputStream in) {
+		//3. ì¶œë ¥ ìŠ¤íŠ¸ë¦¼ ì„ ì–¸
+		this.out = out;
+		this.in = in;
 		this.socket = socket;
 	}
 	
 	@Override
 	public void run() {
-		//1. ¹®ÀÚ¿­ ÀúÀå ¹öÆÛ ÇÒ´ç
+		//1. ë¬¸ìì—´ ì €ì¥ ë²„í¼ í• ë‹¹
 		String temp;
 		
 		try {
-			//2. ÀÔ·Â ½ºÆ®¸² ¼±¾ğ
-			InputStream is = socket.getInputStream();
-			DataInputStream in =new DataInputStream(is);
-			
-			//3. Ãâ·Â ½ºÆ®¸² ¼±¾ğ
-			OutputStream os = socket.getOutputStream();
-			this.out = new DataOutputStream(os);
-			
-			//4. clinet ID µî·Ï
-			this.name = in.readUTF(); //ÇÑ±Û utf-8 enter ±âÁØ read
-			System.out.println("clinet id : " +this.name);
-			//5. ¸ÖÆ¼ Ã¤ÆÃ ½ÃÀÛ
+//			//2. ì…ë ¥ ìŠ¤íŠ¸ë¦¼ ì„ ì–¸
+//			InputStream is = socket.getInputStream();
+//			DataInputStream in =new DataInputStream(is);
+//					
+			//4. client ID ë“±ë¡
+			this.name = in.readUTF(); //í•œê¸€ utf-8 enter ê¸°ì¤€ read
+			System.out.println("client id : " +this.name);
+			//5. ë©€í‹° ì±„íŒ… ì‹œì‘
 			while(true) {
-				//6. Ã¤ÆÃ µ¥ÀÌÅÍ ÀúÀå
+				//6. ì±„íŒ… ë°ì´í„° ì €ì¥
 				temp = in.readUTF();
 				
-				//7. Ã¤ÆÃ µ¥ÀÌÅÍ Å¬¶ó¾ğÆ® ÀüºÎ¿¡ Àü´Ş
+				//7. ì±„íŒ… ë°ì´í„° í´ë¼ì–¸íŠ¸ ì „ë¶€ì— ì „ë‹¬
 				for(ChatHandler handler : MultiServer.clients) {
 					String msg = this.name + " : " + temp;
 					System.out.println(msg);
