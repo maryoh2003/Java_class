@@ -5,51 +5,63 @@ import java.io.FileInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.Socket;
+
+import javax.sound.sampled.Port;
 
 public class UDPFileSend {
 	public static final String SERVER_IP = "127.0.0.1";
-	public static final int PORT = 9000;
+	public static final int PORT = 8500;
 	public static final int BUFF_SIZE = 10000; 
 	public static final String SENDFILE = "C:\\download\\b.txt";
 	public static void main(String[] args) {
 		try {
 			File file = new File(SENDFILE);
 			if(file.exists()) {
-				//Socket socket = new Socket(SERVER_IP, PORT);
+				//Socket socket = new Socket(SERVER_IP,PORT);
 				DatagramSocket ds = new DatagramSocket();
-				//ÆÄÀÏ ÀĞ±â
+				//íŒŒì¼ ì½ê¸°
 				FileInputStream fin = new FileInputStream(file);
-				//¹öÆÛ »ı¼º
-				byte[] buff = new byte[BUFF_SIZE];			
-				//1. ÆÄÀÏ ÀÌ¸§
+				//ë²„í¼ ìƒì„±
+				byte[] buff = new byte[BUFF_SIZE];
+				
+				//1. íŒŒì¼ ë„¤ì„
 				String temp = file.getName();
 				DatagramPacket dp = 
-						new DatagramPacket(temp.getBytes(),  //ÆÄÀÏ¸í(¹è¿­)
-								temp.getBytes().length,
+						new DatagramPacket(temp.getBytes(),//íŒŒì¼ëª…(ë°°ì—´)
+								temp.getBytes().length, //íŒŒì¼ëª…ë°°ì—´ í¬ê¸°
 								InetAddress.getByName(SERVER_IP),
-								PORT);	//ÆÄÀÏ¸í ¹è¿­ Å©±â
+								PORT);
+			
 				ds.send(dp);
-				//2. ÆÄÀÏ »çÀÌÁî 
-				temp = String.valueOf (file.length());
-				dp = new DatagramPacket(temp.getBytes(),  //ÆÄÀÏ¸í(¹è¿­)
-								temp.getBytes().length,	// ÆÄÀÏ¸í¹è¿­ Å©±â
+				//2. íŒŒì¼ ì‚¬ì´ì¦ˆ
+				temp = String.valueOf( file.length()) ; 
+ 				dp = new DatagramPacket(temp.getBytes(),//íŒŒì¼ëª…(ë°°ì—´)
+								temp.getBytes().length, //íŒŒì¼ëª…ë°°ì—´ í¬ê¸°
 								InetAddress.getByName(SERVER_IP),
-								PORT);	//ÆÄÀÏ¸í ¹è¿­ Å©±â
+								PORT);
+			
 				ds.send(dp);
-				//3. ÆÄÀÏ Àü¼Û
-				int readSize = 0;
-				while ((readSize = fin.read(buff)) != -1) {
-					dp = new DatagramPacket(buff, //ÆÄÀÏ
-							readSize, //ÀĞÀº »çÀÌÁî
+				//3. íŒŒì¼ ì „ì†¡
+				int readSize=0;
+				Thread.sleep(100);
+				long totalSize = 0;
+				while( (readSize = fin.read(buff))!= -1 ) {
+					Thread.sleep(5);
+					dp = new DatagramPacket(buff,//íŒŒì¼
+							readSize, //ì½ì€ ì‚¬ì´ì¦ˆ
 							InetAddress.getByName(SERVER_IP),
 							PORT);
-					
+		
 					ds.send(dp);
+					totalSize += readSize;
+					System.out.println("tt : "+totalSize);
 				}
-				fin.close();
-				ds.close();
+				fin.close(); //íŒŒì¼ ì½ê¸° ì¢…ë£Œ
+				ds.close(); //ë°ì´í„° ì†Œìº£ ë°˜í™˜
+				
 			}
-		} catch(Exception e) {
+		}catch(Exception e) {
 			
 		}
 	}

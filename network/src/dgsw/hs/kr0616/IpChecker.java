@@ -9,7 +9,7 @@ public class IpChecker {
     public static void main(String[] args) {
         try {
             InetAddress inet = InetAddress.getByName("google.com");
-            inet = InetAddress.getByName("LAPTOP-F7DJ65SL");
+            inet = InetAddress.getLocalHost();
             checkIp(inet);
         } catch (Exception e) {
             e.printStackTrace();
@@ -19,7 +19,9 @@ public class IpChecker {
     public static void checkIp(InetAddress inet) throws IOException{
         System.out.println(inet);
 
+        //도메인 도달 가능성
         System.out.println("isReachable : " + inet.isReachable(1000));
+        //
         System.out.println("isAnyLocalAddress : " + inet.isAnyLocalAddress());
         System.out.println("isLoopbackAddress : " + inet.isLoopbackAddress());
         System.out.println("isLinkLocalAddress : " + inet.isLinkLocalAddress());
